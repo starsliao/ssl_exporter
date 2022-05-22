@@ -1,0 +1,19 @@
+- name: "IngressTLS-证书检查"
+  rules:
+  - alert: "ssl证书过期"
+    expr: (ssl_kubernetes_cert_not_after{dnsnames!=""}-time())/3600/24 <15
+    for: 10m
+    labels:
+      ienv: k8s
+      severity: critical
+    annotations:
+      description: '{{ $labels.namespace }}：证书{{ $labels.secret }}还有{{ printf "%.1f" $value }}天就过期了,请尽快更新证书'
+
+  - alert: "ssl证书检查失败"
+    expr: ssl_probe_success == 0
+    for: 5m
+    labels:
+      ienv: k8s
+      severity: critical
+    annotations:
+      description: "{{ $labels.job }}：{{ $labels.ienv }}检查失败"
