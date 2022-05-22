@@ -1,8 +1,10 @@
-FROM golang:1.15-buster AS build
+FROM golang:1.18.2-buster AS build
 
 ADD . /tmp/ssl_exporter
 
-RUN cd /tmp/ssl_exporter && \
+RUN go env -w GO111MODULE=on && \
+    go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct && \
+    cd /tmp/ssl_exporter && \
     echo "ssl:*:100:ssl" > group && \
     echo "ssl:*:100:100::/:/ssl_exporter" > passwd && \
     make
