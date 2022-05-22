@@ -1,3 +1,10 @@
+```
+docker build -t "ssl_exporter:0.1" -f Dockerfile.local .
+docker tag ssl_exporter:0.1 registry.cn-shenzhen.aliyuncs.com/starsl/ssl_exporter:0.1
+docker login --username=starsliao@163.com registry.cn-shenzhen.aliyuncs.com
+docker push registry.cn-shenzhen.aliyuncs.com/starsl/ssl_exporter:0.1
+```
+
 # SSL Certificate Exporter
 
 Exports metrics for certificates collected from various sources:
