@@ -3,6 +3,9 @@ docker build -t "ssl_exporter:0.1" -f Dockerfile.local .
 docker tag ssl_exporter:0.1 registry.cn-shenzhen.aliyuncs.com/starsl/ssl_exporter:0.1
 docker login --username=starsliao@163.com registry.cn-shenzhen.aliyuncs.com
 docker push registry.cn-shenzhen.aliyuncs.com/starsl/ssl_exporter:0.1
+
+docker run -p 9219:9219 -v /root/.kube/config:/config  --env KUBECONFIG=/config ssl_exporter:0.1
+http://10.5.148.67:9219/probe?module=kubernetes&target=*/*
 ```
 
 # SSL Certificate Exporter
