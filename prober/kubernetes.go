@@ -24,7 +24,7 @@ var (
 	ErrKubeBadTarget = fmt.Errorf("Target secret must be provided in the form: <namespace>/<name>")
 )
 
-// ProbeKubernetes collects certificate metrics from kubernetes.io/tls Secrets
+// ProbeKubernetes collects certificate metrics from IngressTLS Secrets
 func ProbeKubernetes(ctx context.Context, logger log.Logger, target string, module config.Module, registry *prometheus.Registry) error {
 	client, err := newKubeClient(module.Kubernetes.Kubeconfig)
 	if err != nil {
@@ -44,7 +44,7 @@ func probeKubernetes(ctx context.Context, target string, module config.Module, r
 	name := parts[1]
 
 	var tlsSecrets []v1.Secret
-	secrets, err := client.CoreV1().Secrets("").List(ctx, metav1.ListOptions{FieldSelector: "type=kubernetes.io/tls"})
+	secrets, err := client.CoreV1().Secrets("").List(ctx, metav1.ListOptions{FieldSelector: "type=IngressTLS"})
 	if err != nil {
 		return err
 	}
