@@ -1,0 +1,16 @@
+  - job_name: "K8S-IngressTLS"
+    scrape_interval: 1m
+    scrape_timeout: 10s
+    metrics_path: /probe
+    params:
+      module: ["kubernetes"]
+    static_configs:
+    - targets:
+      - "*/*"
+    relabel_configs:
+    - source_labels: [ __address__ ]
+      target_label: __param_target
+    - source_labels: [ __param_target ]
+      target_label: instance
+    - target_label: __address__
+      replacement: ssl-exporter:9219
